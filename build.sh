@@ -1,4 +1,6 @@
 CLANG_DIR=../clang
+export KBUILD_BUILD_USER="zclkkk"
+export KBUILD_BUILD_HOST="Workspace"
 args="O=../out \
 	ARCH=arm64 \
 	CC=${CLANG_DIR}/bin/clang \
