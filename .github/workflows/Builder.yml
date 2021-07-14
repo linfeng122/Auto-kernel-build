@@ -19,9 +19,13 @@ jobs:
           git clone --depth=1 https://github.com/zclkkk/AnyKernel3 -b main
       - name: 构建内核
         run: |
-          mv build.sh kernel_xiaomi_sm8250/
+          CLANG_DIR=../clang
+          export KBUILD_BUILD_USER="zclkkk"
+          export KBUILD_BUILD_HOST="Workspace"
+          args="O=../out ARCH=arm64 CC=${CLANG_DIR}/bin/clang CLANG_TRIPLE=aarch64-linux-gnu- CROSS_COMPILE=aarch64-linux-gnu- CROSS_COMPILE_ARM32=arm-linux-gnueabi- LD=${CLANG_DIR}/bin/ld.lld"
           cd kernel_xiaomi_sm8250
-          bash build.sh
+          make ${args} lmi_defconfig
+          make -j$(nproc --all) ${args}
       - name: 上传内核
         run: |
           cp out/arch/arm64/boot/Image.gz-dtb AnyKernel3/
