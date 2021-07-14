@@ -7,6 +7,6 @@ args="O=../out \
 	CLANG_TRIPLE=aarch64-linux-gnu- \
 	CROSS_COMPILE=aarch64-linux-gnu- \
 	CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
-	LD=${CLANG_DIR}/bin/ld.lld "
+	LD=${CLANG_DIR}/bin/ld.lld"
 make ${args} lmi_defconfig
 make -j$(nproc --all) ${args}
