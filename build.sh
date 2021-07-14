@@ -8,5 +8,5 @@ args="O=../out \
 	CROSS_COMPILE=aarch64-linux-gnu- \
 	CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
 	LD=${CLANG_DIR}/bin/ld.lld"
-make ${args} cmi_defconfig
+make ${args} umi_defconfig
 make -j$(nproc --all) ${args}
