@@ -1,4 +1,4 @@
-name: BuildKernel
+name: 构建Kneip内核
 
 on: [push]
 
