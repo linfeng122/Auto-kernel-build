@@ -3,35 +3,27 @@ name: BuildKernel
 on: [push]
 
 jobs:
-  build:
+  Start to work:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup
+      - name: 环境准备
         run: |
-          echo "准备环境"
           sudo apt update -y
           sudo apt-get install -y zipalign openssl ccache bc bash git-core gnupg build-essential zip curl make automake autogen autoconf autotools-dev libtool shtool python  m4 gcc libtool zlib1g-dev flex libssl-dev gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi python2
-      - name: Clone
+      - name: 拉取源代码和工具链
         run: |
-          echo "拉取源代码"
           git clone https://oauth2:${{ secrets.TOKEN }}@github.com/zclkkk/kernel_xiaomi_sm8250.git --depth=1
-          echo "拉取源代码完成"
-          echo "拉取工具链"
           git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 --depth=1
           mv linux-x86/clang-r416183c clang
           rm -rf linux-x86
           git clone --depth=1 https://github.com/zclkkk/AnyKernel3 -b main
-          echo "拉取工具链完成"
-      - name: Build
+      - name: 构建内核
         run: |
-          echo "开始构建内核"
           mv build.sh kernel_xiaomi_sm8250/
           cd kernel_xiaomi_sm8250
           bash build.sh
-          echo "构建结束"
-      - name: Upload
+      - name: 上传内核
         run: |
-          echo "开始上传"
           cp out/arch/arm64/boot/Image.gz-dtb AnyKernel3/
           cp out/arch/arm64/boot/dtbo.img AnyKernel3/
           cd AnyKernel3
@@ -41,4 +33,3 @@ jobs:
           cd ..
           curl -sL https://git.io/file-transfer | bash -s beta
           ./transfer wet ${VERSION}.zip
-          echo "上传完成"
