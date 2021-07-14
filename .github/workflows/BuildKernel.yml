@@ -19,7 +19,7 @@ jobs:
       - name: Pull
         run: |
           echo "拉取Source"
-          git clone https://oauth2:$TOKEN@github.com/zclkkk/kernel_xiaomi_sm8250.git --depth=1
+          git clone https://oauth2:${{ secrets.TOKEN }}@github.com/zclkkk/kernel_xiaomi_sm8250.git --depth=1
           echo "拉取Source完成"
           echo "拉取Toolchain"
           git clone --depth=1 https://github.com/kdrag0n/proton-clang clang -b master
