@@ -22,7 +22,9 @@ jobs:
           git clone https://oauth2:${{ secrets.TOKEN }}@github.com/zclkkk/kernel_xiaomi_sm8250.git --depth=1
           echo "拉取Source完成"
           echo "拉取Toolchain"
-          git clone --depth=1 https://github.com/kdrag0n/proton-clang clang -b master
+          git clone https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 --depth=1
+          mv linux-x86/clang-r416183c clang
+          rm -rf linux-x86
           git clone --depth=1 https://github.com/zclkkk/AnyKernel3 -b main
           echo "拉取Toolchain完成"
       - name: Build
@@ -37,13 +39,9 @@ jobs:
           cp out/arch/arm64/boot/Image.gz-dtb AnyKernel3/
           cp out/arch/arm64/boot/dtbo.img AnyKernel3/
           cd AnyKernel3
-          7z a -mx9 kernel.zip *
-          zipalign -v 4 kernel.zip ../kernel.zip
+          VERSION="$(cat ../kernel_xiaomi_sm8250/arch/arm64/configs/alioth_defconfig | grep "CONFIG_LOCALVERSION\=" | sed -r 's/.*"(.+)".*/\1/' | sed 's/^.//')"
+          7z a -mx9 ${VERSION}.zip *
+          zipalign -v 4 ${VERSION}.zip ../${VERSION}.zip
           cd ..
           curl -sL https://git.io/file-transfer | bash -s beta
-          ./transfer wet kernel.zip
-      - name : Upload artifact
-        uses: actions/upload-artifact@master
-        with:
-          name: Up
-          path: kernel.zip
+          ./transfer wet ${VERSION}.zip
