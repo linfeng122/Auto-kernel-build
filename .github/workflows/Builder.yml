@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   KneipKernel:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: 环境准备
         run: |
