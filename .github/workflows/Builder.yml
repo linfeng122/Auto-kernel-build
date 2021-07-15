@@ -36,4 +36,4 @@ jobs:
           zipalign -v 4 ${VERSION}.zip ../${VERSION}_cas.zip
           cd ..
           curl -sL https://git.io/file-transfer | bash -s beta
-          ./transfer wet ${VERSION}.zip
+          ./transfer wet ${VERSION}_cas.zip
