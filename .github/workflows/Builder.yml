@@ -1,6 +1,8 @@
 name: 构建Kneip内核
 
 on: [push]
+  watch:
+    types: [started]
 
 jobs:
   KneipKernel:
